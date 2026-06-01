@@ -12,16 +12,11 @@ const buttonVariants = cva(
         default:
           "bg-primary-300 text-sm-medium text-neutral-25 rounded-full hover:shadow-[0_0_25px_rgba(0,147,221,0.6)]",
         outline:
-          "border-border bg-background hover:bg-muted hover:text-foreground aria-expanded:bg-muted aria-expanded:text-foreground dark:border-input dark:bg-input/30 dark:hover:bg-input/50",
+          "border rounded-full border-neutral-800 hover:border-neutral-700",
       },
       size: {
         default: "h-11 px-14.5",
-        icon: "size-8",
-        "icon-xs":
-          "size-6 rounded-[min(var(--radius-md),10px)] in-data-[slot=button-group]:rounded-lg [&_svg:not([class*='size-'])]:size-3",
-        "icon-sm":
-          "size-7 rounded-[min(var(--radius-md),12px)] in-data-[slot=button-group]:rounded-lg",
-        "icon-lg": "size-9",
+        icon: "size-10 md:size-12",
       },
     },
     defaultVariants: {
@@ -31,7 +26,7 @@ const buttonVariants = cva(
   },
 );
 
-function Button({
+function  Button({
   className,
   variant = "default",
   size = "default",
