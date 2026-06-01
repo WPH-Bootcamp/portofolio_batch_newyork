@@ -1,5 +1,8 @@
 @import "tailwindcss";
 @import "tw-animate-css";
+
+@config '../../tailwind.config.ts';
+
 @import "shadcn/tailwind.css";
 
 @custom-variant dark (&:is(.dark *));
@@ -222,14 +225,8 @@
   --sidebar-ring: oklch(0.556 0 0);
 }
 
-@layer base {
-  * {
-    @apply border-border outline-ring/50;
-  }
-  body {
-    @apply bg-background text-foreground;
-  }
-  html {
-    @apply font-sans;
-  }
+body {
+  @apply bg-base-background text-sm font-normal text-white;
+
+  font-family: var(--font-poppins);
 }
