@@ -1,3 +1,4 @@
+"use client";
 import Navbar from "./home/partials/navbar";
 
 export default function Home() {
