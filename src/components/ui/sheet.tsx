@@ -1,14 +1,15 @@
 "use client";
 
-import { Dialog as SheetPrimitive } from "radix-ui";
-import * as React from "react";
-
-import { cn } from "@/lib/utils";
+import * as SheetPrimitive from "@radix-ui/react-dialog";
 import { XIcon } from "lucide-react";
+import * as React from "react";
 import { useMedia } from "react-use";
 
+import { cn } from "@/lib/utils";
+
 function Sheet({ ...props }: React.ComponentProps<typeof SheetPrimitive.Root>) {
-  const isLargeIsh = useMedia("(min-width:1024px", false);
+  const isLargeIsh = useMedia("(min-width: 1024px", false);
+
   const [open, setOpen] = React.useState(false);
 
   React.useEffect(() => {
@@ -53,7 +54,7 @@ function SheetOverlay({
     <SheetPrimitive.Overlay
       data-slot="sheet-overlay"
       className={cn(
-        "fixed inset-0 z-50 bg-black/10 duration-100 supports-backdrop-filter:backdrop-blur-xs data-open:animate-in data-open:fade-in-0 data-closed:animate-out data-closed:fade-out-0",
+        "data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 fixed inset-0 z-50 bg-black/50",
         className,
       )}
       {...props}
@@ -65,20 +66,17 @@ function SheetContent({
   className,
   children,
   side = "right",
-  showCloseButton = true,
   ...props
 }: React.ComponentProps<typeof SheetPrimitive.Content> & {
   side?: "top" | "right" | "bottom" | "left";
-  showCloseButton?: boolean;
 }) {
   return (
     <SheetPortal>
       <SheetOverlay />
       <SheetPrimitive.Content
         data-slot="sheet-content"
-        data-side={side}
         className={cn(
-          "bg-base-background data-[state=open]:animate-in data-[state=closed]:animate-out fixed z-50 flex flex-col gap-3 px-4 shadow-lg transition ease-in-out data-[state=open]:duration-500 data-[state=closed]:duration-300",
+          "bg-base-background data-[state=open]:animate-in data-[state=closed]:animate-out fixed z-50 flex flex-col gap-4 px-4 shadow-lg transition ease-in-out data-[state=closed]:duration-300 data-[state=open]:duration-500",
           side === "right" &&
             "data-[state=closed]:slide-out-to-right data-[state=open]:slide-in-from-right inset-y-0 right-0 h-full w-full",
           side === "left" &&
@@ -93,15 +91,10 @@ function SheetContent({
       >
         <SheetTitle>Title</SheetTitle>
         {children}
-        {showCloseButton && (
-          <SheetPrimitive.Close
-            className="top-4 right-4 absolute cursor-pointer rounded-xs"
-            data-slot="sheet-close"
-            asChild
-          >
-            <XIcon className="size-6" color="#fdfdfd" />
-          </SheetPrimitive.Close>
-        )}
+        <SheetPrimitive.Close className="ring-offset-background focus:ring-ring data-[state=open]:bg-secondary absolute top-4 right-4 cursor-pointer rounded-xs opacity-70 transition-opacity hover:opacity-100 focus:ring-2 focus:ring-offset-2 focus:outline-hidden disabled:pointer-events-none">
+          <XIcon className="size-6" color="#fdfdfd" />
+          <span className="sr-only">Close</span>
+        </SheetPrimitive.Close>
       </SheetPrimitive.Content>
     </SheetPortal>
   );
@@ -111,7 +104,7 @@ function SheetHeader({ className, ...props }: React.ComponentProps<"div">) {
   return (
     <div
       data-slot="sheet-header"
-      className={cn("flex flex-col gap-0.5 p-4", className)}
+      className={cn("flex flex-col gap-1.5 p-4", className)}
       {...props}
     />
   );
@@ -134,10 +127,7 @@ function SheetTitle({
   return (
     <SheetPrimitive.Title
       data-slot="sheet-title"
-      className={cn(
-        "font-heading text-base font-semibold hidden text-foreground",
-        className,
-      )}
+      className={cn("text-foreground hidden font-semibold", className)}
       {...props}
     />
   );
@@ -150,7 +140,7 @@ function SheetDescription({
   return (
     <SheetPrimitive.Description
       data-slot="sheet-description"
-      className={cn("text-sm text-muted-foreground", className)}
+      className={cn("text-muted-foreground text-sm", className)}
       {...props}
     />
   );
